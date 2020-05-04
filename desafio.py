@@ -28,3 +28,7 @@ df_lojas = df_lojas.rename({'NomeFantasia': 'nome_fantasia',
                             'Vlookup Bruto': 'valor_bruto'}, axis=1)
 df_vendas = df_vendas.groupby(['escritorio', 'fornecedor']).agg({'valor_liquido': 'sum'}).reset_index(drop=False)
 df_lojas['valor_bruto'] = df_lojas['valor_bruto'].astype(float)
+
+# Correlacionar Tabelas
+df_resultado = pd.merge(df_vendas, df_lojas, on=['escritorio', 'fornecedor'], how='inner')
+
