@@ -35,3 +35,11 @@ df_resultado = pd.merge(df_vendas, df_lojas, on=['escritorio', 'fornecedor'], ho
 # Regra de Negócio
 df_resultado['status'] = df_resultado.apply(lambda row: alerta(row['valor_bruto'], row['valor_liquido']), axis=1)
 
+# Formatação Final
+df_resultado = df_resultado.drop(['UF', 'escritorio'], axis=1)
+df_resultado = df_resultado.rename({'fornecedor': 'Fornecedor',
+                                    'valor_liquido': 'Valor Líquido',
+                                    'nome_fantasia': 'Nome Fantasia',
+                                    'valor_bruto': 'Valor Bruto',
+                                    'status': 'Alerta'}, axis=1)
+df_resultado = df_resultado[['Nome Fantasia', 'Fornecedor', 'Valor Líquido', 'Valor Bruto', 'Alerta']]
