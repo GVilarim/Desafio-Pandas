@@ -43,3 +43,8 @@ df_resultado = df_resultado.rename({'fornecedor': 'Fornecedor',
                                     'valor_bruto': 'Valor Bruto',
                                     'status': 'Alerta'}, axis=1)
 df_resultado = df_resultado[['Nome Fantasia', 'Fornecedor', 'Valor Líquido', 'Valor Bruto', 'Alerta']]
+
+# Exportar dados
+writer = pd.ExcelWriter(f'{caminho}\\relatorio.xlsx')
+df_resultado.to_excel(writer, sheet_name='Resultado', index=False)
+writer.save()
