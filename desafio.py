@@ -28,22 +28,3 @@ df_lojas = df_lojas.rename({'NomeFantasia': 'nome_fantasia',
                             'Vlookup Bruto': 'valor_bruto'}, axis=1)
 df_vendas = df_vendas.groupby(['escritorio', 'fornecedor']).agg({'valor_liquido': 'sum'}).reset_index(drop=False)
 df_lojas['valor_bruto'] = df_lojas['valor_bruto'].astype(float)
-# Correlacionar Tabelas
-df_resultado = pd.merge(df_vendas, df_lojas, on=['escritorio', 'fornecedor'], how='inner')
-
-# Regra de Negócio
-df_resultado['status'] = df_resultado.apply(lambda row: alerta(row['valor_bruto'], row['valor_liquido']), axis=1)
-
-# Formatação
-df_resultado = df_resultado.drop(['UF', 'escritorio'], axis=1)
-df_resultado = df_resultado.rename({'fornecedor': 'Fornecedor',
-                                    'valor_liquido': 'Valor Líquido',
-                                    'nome_fantasia': 'Nome Fantasia',
-                                    'valor_bruto': 'Valor Bruto',
-                                    'status': 'Alerta'}, axis=1)
-df_resultado = df_resultado[['Nome Fantasia', 'Fornecedor', 'Valor Líquido', 'Valor Bruto', 'Alerta']]
-
-# Exportar dados
-writer = pd.ExcelWriter(f'{caminho}\\relatorio.xlsx')
-df_resultado.to_excel(writer, sheet_name='Resultado', index=False)
-writer.save()
