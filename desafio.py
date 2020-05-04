@@ -32,3 +32,6 @@ df_lojas['valor_bruto'] = df_lojas['valor_bruto'].astype(float)
 # Correlacionar Tabelas
 df_resultado = pd.merge(df_vendas, df_lojas, on=['escritorio', 'fornecedor'], how='inner')
 
+# Regra de Negócio
+df_resultado['status'] = df_resultado.apply(lambda row: alerta(row['valor_bruto'], row['valor_liquido']), axis=1)
+
